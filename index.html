@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pop the Balloons - MICOPE Celebration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #fceabb, #f8b500);
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #ff4081;
+    }
+    .balloon-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 800px;
+      margin: 20px auto;
+    }
+    .balloon {
+      width: 50px;
+      height: 70px;
+      margin: 10px;
+      background: #ff6f61;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+    .balloon:hover {
+      transform: scale(1.1);
+    }
+    .balloon.popped {
+      background: transparent;
+      border: none;
+      cursor: default;
+    }
+    .emoji {
+      font-size: 24px;
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    #progressContainer {
+      width: 100%;
+      background: #ddd;
+      margin: 20px auto;
+      height: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+    }
+    #progressBar {
+      height: 100%;
+      background: #4caf50;
+      width: 0%;
+      border-radius: 10px;
+    }
+    #status, #quote {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #ff4081;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #e73370;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎈 Pop the Balloons to Celebrate MICOPE! 🎈</h1>
+  <div id="progressContainer"><div id="progressBar"></div></div>
+  <div id="status">Balloons popped: 0 / 40</div>
+  <div id="quote">Start popping to get motivated!</div>
+  <div class="balloon-container" id="balloonContainer"></div>
+  <button onclick="resetProgress()">🔄 Reset Game</button>
+
+  <script>
+    const totalBalloons = 40;
+    let poppedCount = 0;
+
+    const progressBar = document.getElementById("progressBar");
+    const status = document.getElementById("status");
+    const quote = document.getElementById("quote");
+    const container = document.getElementById("balloonContainer");
+
+    const emojis = ["😄", "🌟", "🚀", "💡", "🔥", "🎯", "💪", "👏", "🧠", "💥"];
+    const quotes = [
+      "You're off to a great start!",
+      "Every pop is progress!",
+      "You’ve got this!",
+      "Keep that momentum going!",
+      "Amazing work—you're halfway there!",
+      "Your dedication is inspiring!",
+      "Boom! Another step closer!",
+      "Pop power activated!",
+      "Feel the progress!",
+      "Recruitment champion in the making!",
+      "You’re making a real difference!",
+      "One more down—keep going!",
+      "MICOPE magic happening!",
+      "Consistency builds success!",
+      "Look at you go!",
+      "Almost there!",
+      "You’re unstoppable!",
+      "MICOPE team would be proud!",
+      "You’re doing something that matters!",
+      "Keep showing up. You’re making change."
+    ];
+
+    let savedPopped = JSON.parse(localStorage.getItem("poppedBalloons")) || [];
+
+    for (let i = 0; i < totalBalloons; i++) {
+      const balloon = document.createElement("div");
+      balloon.classList.add("balloon");
+      balloon.dataset.index = i;
+
+      if (savedPopped.includes(i)) {
+        balloon.classList.add("popped");
+        const emoji = document.createElement("div");
+        emoji.classList.add("emoji");
+        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        balloon.appendChild(emoji);
+        poppedCount++;
+      }
+
+      balloon.addEventListener("click", function () {
+        if (!balloon.classList.contains("popped")) {
+          balloon.classList.add("popped");
+          const emoji = document.createElement("div");
+          emoji.classList.add("emoji");
+          emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          balloon.appendChild(emoji);
+
+          poppedCount++;
+          savedPopped.push(i);
+          localStorage.setItem("poppedBalloons", JSON.stringify(savedPopped));
+
+          updateProgress();
+        }
+      });
+
+      container.appendChild(balloon);
+    }
+
+    function updateProgress() {
+      const percent = (poppedCount / totalBalloons) * 100;
+      progressBar.style.width = percent + "%";
+      status.textContent = `Balloons popped: ${poppedCount} / ${totalBalloons}`;
+
+      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+      quote.textContent = poppedCount === totalBalloons ? "" : randomQuote;
+
+      if (poppedCount === totalBalloons) {
+        status.textContent = "🎉 You did it! MICOPE Recruitment Complete!";
+        quote.textContent = "Thank you for your incredible work in making MICOPE a success. Your effort will ripple into real lives. 🎓💬❤️";
+      }
+    }
+
+    function resetProgress() {
+      localStorage.removeItem("poppedBalloons");
+      window.location.reload();
+    }
+
+    updateProgress();
+  </script>
+</body>
+</html>
