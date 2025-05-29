@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pop the Balloons - MICOPE Celebration</title>
   <style>
     body {
@@ -18,13 +18,13 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      max-width: 800px;
+      max-width: 860px;
       margin: 20px auto;
     }
     .balloon {
       width: 50px;
       height: 70px;
-      margin: 10px;
+      margin: 8px;
       background: #ff6f61;
       border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
       cursor: pointer;
@@ -45,6 +45,7 @@
       top: 20%;
       left: 50%;
       transform: translate(-50%, -50%);
+      user-select: none;
     }
     #progressContainer {
       width: 100%;
@@ -52,17 +53,20 @@
       margin: 20px auto;
       height: 20px;
       border-radius: 10px;
-      max-width: 600px;
+      max-width: 700px;
     }
     #progressBar {
       height: 100%;
       background: #4caf50;
       width: 0%;
       border-radius: 10px;
+      transition: width 0.3s ease;
     }
     #status, #quote {
       margin-top: 15px;
       font-weight: bold;
+      min-height: 40px;
+      font-size: 18px;
     }
     button {
       margin-top: 20px;
@@ -73,6 +77,7 @@
       border-radius: 5px;
       font-size: 16px;
       cursor: pointer;
+      user-select: none;
     }
     button:hover {
       background-color: #e73370;
@@ -82,13 +87,13 @@
 <body>
   <h1>🎈 Pop the Balloons to Celebrate MICOPE! 🎈</h1>
   <div id="progressContainer"><div id="progressBar"></div></div>
-  <div id="status">Balloons popped: 0 / 40</div>
+  <div id="status">Balloons popped: 0 / 42</div>
   <div id="quote">Start popping to get motivated!</div>
   <div class="balloon-container" id="balloonContainer"></div>
   <button onclick="resetProgress()">🔄 Reset Game</button>
 
   <script>
-    const totalBalloons = 40;
+    const totalBalloons = 42;
     let poppedCount = 0;
 
     const progressBar = document.getElementById("progressBar");
@@ -96,28 +101,52 @@
     const quote = document.getElementById("quote");
     const container = document.getElementById("balloonContainer");
 
-    const emojis = ["😄", "🌟", "🚀", "💡", "🔥", "🎯", "💪", "👏", "🧠", "💥"];
-    const quotes = [
-      "You're off to a great start!",
-      "Every pop is progress!",
-      "You’ve got this!",
-      "Keep that momentum going!",
-      "Amazing work—you're halfway there!",
-      "Your dedication is inspiring!",
-      "Boom! Another step closer!",
-      "Pop power activated!",
-      "Feel the progress!",
-      "Recruitment champion in the making!",
-      "You’re making a real difference!",
-      "One more down—keep going!",
-      "MICOPE magic happening!",
-      "Consistency builds success!",
-      "Look at you go!",
-      "Almost there!",
-      "You’re unstoppable!",
-      "MICOPE team would be proud!",
-      "You’re doing something that matters!",
-      "Keep showing up. You’re making change."
+    const emojis = ["😄","🌟","🚀","💡","🔥","🎯","💪","👏","🧠","💥","😎","🤩","🥳","😇","🤓"];
+
+    // 42 unique messages mixing motivation + funny remarks by Ewa (E) & Val (V)
+    const messages = [
+      "You popped balloon #1! Keep it up! - Ewa says: 'Precision is key!'",
+      "Balloon #2 down! Val approves: 'Nice pop, like my coffee this morning.'",
+      "Three’s a charm! Ewa reminds: 'Consistency > intensity!'",
+      "Balloon 4 popped! Val jokes: 'Almost as satisfying as a cat video.'",
+      "High five for #5! Ewa: 'Slow and steady wins the grant race.'",
+      "Balloon #6 popped! Val: 'Is it me or is this balloon making progress?'",
+      "Lucky 7! Ewa says: 'Good things come in sevens... kinda.'",
+      "Eight balloons down! Val: 'Science says you just earned a break!'",
+      "Balloon 9 popped! Ewa: 'Mental health science FTW!'",
+      "Perfect 10! Val: 'Pop goes the progress!'",
+      "Eleven down! Ewa reminds: 'Remember to breathe and hydrate.'",
+      "Twelve popped! Val: 'Is this balloon your new best friend?'",
+      "Thirteen’s a lucky pop! Ewa says: 'We make our own luck here.'",
+      "Fourteen popped! Val: 'Pop that stress away!'",
+      "Fifteen balloons down! Ewa: 'Halfway to MICOPE magic!'",
+      "Sweet sixteen! Val jokes: 'Balloon therapy is underrated.'",
+      "Seventeen popped! Ewa: 'Every pop counts towards change.'",
+      "Eighteen balloons down! Val: 'You’re the real MVP today.'",
+      "Nineteen popped! Ewa: 'Persistence is impressive.'",
+      "Twenty balloons popped! Val: 'Woo! Party time—virtually.'",
+      "21 down! Ewa says: 'Keep calm and pop on.'",
+      "22 popped! Val: 'I’m popping proud of you!'",
+      "Twenty-three popped! Ewa: 'Scientific progress in motion.'",
+      "24 down! Val: 'Pop, pop, fizz, fizz—oh what a relief it is!'",
+      "Twenty-five popped! Ewa: 'Incredible work, keep that focus.'",
+      "26 popped! Val: 'Balloon popping? New Olympic sport, maybe.'",
+      "27 down! Ewa: 'Stay curious, stay committed.'",
+      "28 popped! Val: 'You’ve got pop-tential!'",
+      "29 popped! Ewa: 'Every pop is a step closer.'",
+      "30 down! Val: 'Pop goes the team spirit!'",
+      "31 popped! Ewa: 'Excellence in motion.'",
+      "32 popped! Val: 'You’re popping like a pro!'",
+      "33 down! Ewa: 'Such focus and dedication.'",
+      "34 popped! Val: 'Pop quiz: how amazing are you?'",
+      "35 popped! Ewa: 'Keep that momentum rolling.'",
+      "36 down! Val: 'Balloon popping and science, best combo.'",
+      "37 popped! Ewa: 'Your hard work shines bright.'",
+      "38 popped! Val: 'Pop goes the challenge!'",
+      "39 popped! Ewa: 'Only a few left, stay strong!'",
+      "40 popped! Val: 'Almost done, you legend!'",
+      "41 popped! Ewa: 'Final push — I believe in you!'",
+      "42 popped! 🎉 Ewa & Val: '🎓 You crushed MICOPE recruitment! Massive thanks & celebration time! 🎉'"
     ];
 
     let savedPopped = JSON.parse(localStorage.getItem("poppedBalloons")) || [];
@@ -148,24 +177,25 @@
           savedPopped.push(i);
           localStorage.setItem("poppedBalloons", JSON.stringify(savedPopped));
 
-          updateProgress();
+          updateProgress(i);
         }
       });
 
       container.appendChild(balloon);
     }
 
-    function updateProgress() {
+    function updateProgress(lastPoppedIndex = null) {
       const percent = (poppedCount / totalBalloons) * 100;
       progressBar.style.width = percent + "%";
       status.textContent = `Balloons popped: ${poppedCount} / ${totalBalloons}`;
 
-      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-      quote.textContent = poppedCount === totalBalloons ? "" : randomQuote;
-
       if (poppedCount === totalBalloons) {
         status.textContent = "🎉 You did it! MICOPE Recruitment Complete!";
         quote.textContent = "Thank you for your incredible work in making MICOPE a success. Your effort will ripple into real lives. 🎓💬❤️";
+      } else if (lastPoppedIndex !== null) {
+        quote.textContent = messages[lastPoppedIndex] || "Keep going!";
+      } else {
+        quote.textContent = "Start popping to get motivated!";
       }
     }
 
