@@ -93,118 +93,119 @@
   <button onclick="resetProgress()">🔄 Reset Game</button>
 
   <script>
-    const totalBalloons = 42;
-    let poppedCount = 0;
+   const totalBalloons = 42;
+  let poppedCount = 0;
 
-    const progressBar = document.getElementById("progressBar");
-    const status = document.getElementById("status");
-    const quote = document.getElementById("quote");
-    const container = document.getElementById("balloonContainer");
+  const progressBar = document.getElementById("progressBar");
+  const status = document.getElementById("status");
+  const quote = document.getElementById("quote");
+  const container = document.getElementById("balloonContainer");
 
-    const emojis = ["😄","🌟","🚀","💡","🔥","🎯","💪","👏","🧠","💥","😎","🤩","🥳","😇","🤓"];
+  const emojis = ["😄", "🌟", "🚀", "💡", "🔥", "🎯", "💪", "👏", "🧠", "💥", "😎", "🤩", "🥳", "😇", "🤓"];
 
-    // 42 unique messages mixing motivation + funny remarks by Ewa (E) & Val (V)
-    const messages = [
-      "You popped balloon #1! Keep it up! - Ewa says: 'Precision is key!'",
-      "Balloon #2 down! Val approves: 'Nice pop, like my coffee this morning.'",
-      "Three’s a charm! Ewa reminds: 'Consistency > intensity!'",
-      "Balloon 4 popped! Val jokes: 'Almost as satisfying as a cat video.'",
-      "High five for #5! Ewa: 'Slow and steady wins the grant race.'",
-      "Balloon #6 popped! Val: 'Is it me or is this balloon making progress?'",
-      "Lucky 7! Ewa says: 'Good things come in sevens... kinda.'",
-      "Eight balloons down! Val: 'Science says you just earned a break!'",
-      "Balloon 9 popped! Ewa: 'Mental health science FTW!'",
-      "Perfect 10! Val: 'Pop goes the progress!'",
-      "Eleven down! Ewa reminds: 'Remember to breathe and hydrate.'",
-      "Twelve popped! Val: 'Is this balloon your new best friend?'",
-      "Thirteen’s a lucky pop! Ewa says: 'We make our own luck here.'",
-      "Fourteen popped! Val: 'Pop that stress away!'",
-      "Fifteen balloons down! Ewa: 'Halfway to MICOPE magic!'",
-      "Sweet sixteen! Val jokes: 'Balloon therapy is underrated.'",
-      "Seventeen popped! Ewa: 'Every pop counts towards change.'",
-      "Eighteen balloons down! Val: 'You’re the real MVP today.'",
-      "Nineteen popped! Ewa: 'Persistence is impressive.'",
-      "Twenty balloons popped! Val: 'Woo! Party time—virtually.'",
-      "21 down! Ewa says: 'Keep calm and pop on.'",
-      "22 popped! Val: 'I’m popping proud of you!'",
-      "Twenty-three popped! Ewa: 'Scientific progress in motion.'",
-      "24 down! Val: 'Pop, pop, fizz, fizz—oh what a relief it is!'",
-      "Twenty-five popped! Ewa: 'Incredible work, keep that focus.'",
-      "26 popped! Val: 'Balloon popping? New Olympic sport, maybe.'",
-      "27 down! Ewa: 'Stay curious, stay committed.'",
-      "28 popped! Val: 'You’ve got pop-tential!'",
-      "29 popped! Ewa: 'Every pop is a step closer.'",
-      "30 down! Val: 'Pop goes the team spirit!'",
-      "31 popped! Ewa: 'Excellence in motion.'",
-      "32 popped! Val: 'You’re popping like a pro!'",
-      "33 down! Ewa: 'Such focus and dedication.'",
-      "34 popped! Val: 'Pop quiz: how amazing are you?'",
-      "35 popped! Ewa: 'Keep that momentum rolling.'",
-      "36 down! Val: 'Balloon popping and science, best combo.'",
-      "37 popped! Ewa: 'Your hard work shines bright.'",
-      "38 popped! Val: 'Pop goes the challenge!'",
-      "39 popped! Ewa: 'Only a few left, stay strong!'",
-      "40 popped! Val: 'Almost done, you legend!'",
-      "41 popped! Ewa: 'Final push — I believe in you!'",
-      "42 popped! 🎉 Ewa & Val: '🎓 You crushed MICOPE recruitment! Massive thanks & celebration time! 🎉'"
-    ];
+  const messages = [
+    "You popped balloon #1! Keep it up! - Ewa says: 'Precision is key!'",
+    "Balloon #2 down! Val approves: 'Nice pop, like my coffee this morning.'",
+    "Three’s a charm! Ewa reminds: 'Consistency > intensity!'",
+    "Balloon 4 popped! Val jokes: 'Almost as satisfying as a cat video.'",
+    "High five for #5! Ewa: 'Slow and steady wins the grant race.'",
+    "Balloon #6 popped! Val: 'Is it me or is this balloon making progress?'",
+    "Lucky 7! Ewa says: 'Good things come in sevens... kinda.'",
+    "Eight balloons down! Val: 'Science says you just earned a break!'",
+    "Balloon 9 popped! Ewa: 'Mental health science FTW!'",
+    "Perfect 10! Val: 'Pop goes the progress!'",
+    "Eleven down! Ewa reminds: 'Remember to breathe and hydrate.'",
+    "Twelve popped! Val: 'Is this balloon your new best friend?'",
+    "Thirteen’s a lucky pop! Ewa says: 'We make our own luck here.'",
+    "Fourteen popped! Val: 'Pop that stress away!'",
+    "Fifteen balloons down! Ewa: 'Halfway to MICOPE magic!'",
+    "Sweet sixteen! Val jokes: 'Balloon therapy is underrated.'",
+    "Seventeen popped! Ewa: 'Every pop counts towards change.'",
+    "Eighteen balloons down! Val: 'You’re the real MVP today.'",
+    "Nineteen popped! Ewa: 'Persistence is impressive.'",
+    "Twenty balloons popped! Val: 'Woo! Party time—virtually.'",
+    "21 down! Ewa says: 'Keep calm and pop on.'",
+    "22 popped! Val: 'I’m popping proud of you!'",
+    "Twenty-three popped! Ewa: 'Scientific progress in motion.'",
+    "24 down! Val: 'Pop, pop, fizz, fizz—oh what a relief it is!'",
+    "Twenty-five popped! Ewa: 'Incredible work, keep that focus.'",
+    "26 popped! Val: 'Balloon popping? New Olympic sport, maybe.'",
+    "27 down! Ewa: 'Stay curious, stay committed.'",
+    "28 popped! Val: 'You’ve got pop-tential!'",
+    "29 popped! Ewa: 'Every pop is a step closer.'",
+    "30 down! Val: 'Pop goes the team spirit!'",
+    "31 popped! Ewa: 'Excellence in motion.'",
+    "32 popped! Val: 'You’re popping like a pro!'",
+    "33 down! Ewa: 'Such focus and dedication.'",
+    "34 popped! Val: 'Pop quiz: how amazing are you?'",
+    "35 popped! Ewa: 'Keep that momentum rolling.'",
+    "36 down! Val: 'Balloon popping and science, best combo.'",
+    "37 popped! Ewa: 'Your hard work shines bright.'",
+    "38 popped! Val: 'Pop goes the challenge!'",
+    "39 popped! Ewa: 'Only a few left, stay strong!'",
+    "40 popped! Val: 'Almost done, you legend!'",
+    "41 popped! Ewa: 'Final push — I believe in you!'",
+    "42 popped! 🎉 Ewa & Val: '🎓 You crushed MICOPE recruitment! Massive thanks & celebration time! 🎉'"
+  ];
 
-    let savedPopped = JSON.parse(localStorage.getItem("poppedBalloons")) || [];
+  let savedPopped = JSON.parse(localStorage.getItem("poppedBalloons")) || [];
 
-    for (let i = 0; i < totalBalloons; i++) {
-      const balloon = document.createElement("div");
-      balloon.classList.add("balloon");
-      balloon.dataset.index = i;
+  // Shuffle balloon indexes
+  const shuffledIndexes = Array.from({ length: totalBalloons }, (_, i) => i).sort(() => Math.random() - 0.5);
 
-      if (savedPopped.includes(i)) {
+  shuffledIndexes.forEach(i => {
+    const balloon = document.createElement("div");
+    balloon.classList.add("balloon");
+    balloon.dataset.index = i;
+
+    if (savedPopped.includes(i)) {
+      balloon.classList.add("popped");
+      const emoji = document.createElement("div");
+      emoji.classList.add("emoji");
+      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      balloon.appendChild(emoji);
+      poppedCount++;
+    }
+
+    balloon.addEventListener("click", function () {
+      if (!balloon.classList.contains("popped")) {
         balloon.classList.add("popped");
         const emoji = document.createElement("div");
         emoji.classList.add("emoji");
         emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
         balloon.appendChild(emoji);
+
         poppedCount++;
+        savedPopped.push(i);
+        localStorage.setItem("poppedBalloons", JSON.stringify(savedPopped));
+
+        updateProgress(i);
       }
+    });
 
-      balloon.addEventListener("click", function () {
-        if (!balloon.classList.contains("popped")) {
-          balloon.classList.add("popped");
-          const emoji = document.createElement("div");
-          emoji.classList.add("emoji");
-          emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-          balloon.appendChild(emoji);
+    container.appendChild(balloon);
+  });
 
-          poppedCount++;
-          savedPopped.push(i);
-          localStorage.setItem("poppedBalloons", JSON.stringify(savedPopped));
+  function updateProgress(lastPoppedIndex = null) {
+    const logicalTotal = 300;
+    const logicalPerBalloon = logicalTotal / totalBalloons;
+    const logicalPopped = Math.min(Math.round(poppedCount * logicalPerBalloon), logicalTotal);
+    progressBar.style.width = (logicalPopped / logicalTotal) * 100 + "%";
+    status.textContent = `MICOPE Participants Recruited: ${logicalPopped} / ${logicalTotal}`;
 
-          updateProgress(i);
-        }
-      });
-
-      container.appendChild(balloon);
+    if (poppedCount === totalBalloons) {
+      quote.textContent = "🎉 Thank you for your incredible work in making MICOPE a success. Your effort will ripple into real lives. 🎓💬❤️";
+    } else if (lastPoppedIndex !== null) {
+      quote.textContent = messages[lastPoppedIndex] || "Keep going!";
     }
+  }
 
-    function updateProgress(lastPoppedIndex = null) {
-      const percent = (poppedCount / totalBalloons) * 100;
-      progressBar.style.width = percent + "%";
-      status.textContent = `Balloons popped: ${poppedCount} / ${totalBalloons}`;
+  function resetProgress() {
+    localStorage.removeItem("poppedBalloons");
+    window.location.reload();
+  }
 
-      if (poppedCount === totalBalloons) {
-        status.textContent = "🎉 You did it! MICOPE Recruitment Complete!";
-        quote.textContent = "Thank you for your incredible work in making MICOPE a success. Your effort will ripple into real lives. 🎓💬❤️";
-      } else if (lastPoppedIndex !== null) {
-        quote.textContent = messages[lastPoppedIndex] || "Keep going!";
-      } else {
-        quote.textContent = "Start popping to get motivated!";
-      }
-    }
-
-    function resetProgress() {
-      localStorage.removeItem("poppedBalloons");
-      window.location.reload();
-    }
-
-    updateProgress();
+  updateProgress();
   </script>
 </body>
 </html>
