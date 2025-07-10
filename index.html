@@ -92,6 +92,119 @@
   <div class="balloon-container" id="balloonContainer"></div>
   <button onclick="resetProgress()">🔄 Reset My Popped Balloons</button>
 
-  <script src="script.js"></script>
+  <script>
+    const totalBalloons = 300;
+    const prePopped = 263;
+    const totalToPop = totalBalloons - prePopped; // 37
+    const emojis = ["😄", "🌟", "🚀", "💡", "🔥", "🎯", "💪", "👏", "🧠", "💥"];
+    let userPopped = JSON.parse(localStorage.getItem("userPoppedBalloons")) || [];
+
+    const messages = [
+      "Val: 'Only 37 balloons left — let’s get popping! 🧠🎈'",
+      "Ewa: '36 balloons to go — steady progress!'",
+      "Val: '35 balloons left — you’re unstoppable!'",
+      "Ewa: '34 and counting — science never looked so fun!'",
+      "Val: '33 down — you’re basically a recruitment hero.'",
+      "Ewa: '32 balloons left — keep up the great work!'",
+      "Val: '31 left — popping like a pro.'",
+      "Ewa: '30 balloons remaining — almost halfway there!'",
+      "Val: '29 balloons left — you got this!'",
+      "Ewa: '28 balloons and climbing!'",
+      "Val: '27 balloons left — wow, impressive!'",
+      "Ewa: '26 balloons remaining — keep that energy!'",
+      "Val: '25 to go — you’re on fire!'",
+      "Ewa: '24 balloons left — keep popping!'",
+      "Val: '23 remaining — the finish line is in sight.'",
+      "Ewa: '22 left — almost there!'",
+      "Val: '21 balloons left — amazing work!'",
+      "Ewa: '20 remaining — stay strong!'",
+      "Val: '19 balloons left — fantastic!'",
+      "Ewa: '18 to go — keep it up!'",
+      "Val: '17 balloons remaining — you rock!'",
+      "Ewa: '16 balloons left — let’s finish strong!'",
+      "Val: '15 to go — nearly there!'",
+      "Ewa: '14 remaining — fantastic progress!'",
+      "Val: '13 balloons left — great job!'",
+      "Ewa: '12 left — keep going!'",
+      "Val: '11 balloons remaining — awesome!'",
+      "Ewa: '10 to go — finish line ahead!'",
+      "Val: '9 left — keep it rolling!'",
+      "Ewa: '8 balloons remaining — almost done!'",
+      "Val: '7 to go — you’re crushing it!'",
+      "Ewa: '6 left — great effort!'",
+      "Val: '5 balloons remaining — fantastic!'",
+      "Ewa: '4 to go — nearly there!'",
+      "Val: '3 left — keep pushing!'",
+      "Ewa: '2 balloons remaining — last stretch!'",
+      "Val: '1 balloon left — you’re a superstar!'",
+      "🎉 Final Balloon! Ewa & Val: 'All 37 popped! MICOPE recruitment complete — YOU ROCK! 🎓🎈'"
+    ];
+
+    const balloonContainer = document.getElementById("balloonContainer");
+    const progressBar = document.getElementById("progressBar");
+    const status = document.getElementById("status");
+    const quote = document.getElementById("quote");
+
+    for (let i = 0; i < totalBalloons; i++) {
+      const balloon = document.createElement("div");
+      balloon.classList.add("balloon");
+      balloon.dataset.index = i;
+
+      if (i < prePopped) {
+        balloon.classList.add("popped");
+        const emoji = document.createElement("div");
+        emoji.classList.add("emoji");
+        emoji.textContent = "✅";
+        balloon.appendChild(emoji);
+      } else {
+        if (userPopped.includes(i)) {
+          balloon.classList.add("popped");
+          const emoji = document.createElement("div");
+          emoji.classList.add("emoji");
+          emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          balloon.appendChild(emoji);
+        }
+
+        balloon.addEventListener("click", function () {
+          if (!balloon.classList.contains("popped")) {
+            balloon.classList.add("popped");
+            const emoji = document.createElement("div");
+            emoji.classList.add("emoji");
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            balloon.appendChild(emoji);
+
+            userPopped.push(i);
+            localStorage.setItem("userPoppedBalloons", JSON.stringify(userPopped));
+            updateProgress();
+          }
+        });
+      }
+
+      balloonContainer.appendChild(balloon);
+    }
+
+    function updateProgress() {
+      const totalProgress = prePopped + userPopped.length;
+      const percent = (totalProgress / totalBalloons) * 100;
+      progressBar.style.width = percent + "%";
+      status.textContent = `Progress: ${totalProgress} / ${totalBalloons}`;
+
+      const balloonsLeft = totalToPop - userPopped.length;
+
+      if (totalProgress >= totalBalloons) {
+        quote.textContent = messages[messages.length - 1];
+      } else {
+        const messageIndex = totalToPop - balloonsLeft; // counts up from 0 as balloons pop
+        quote.textContent = messages[messageIndex] || "Keep popping!";
+      }
+    }
+
+    function resetProgress() {
+      localStorage.removeItem("userPoppedBalloons");
+      window.location.reload();
+    }
+
+    updateProgress();
+  </script>
 </body>
 </html>
