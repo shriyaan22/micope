@@ -92,7 +92,7 @@
   <div class="balloon-container" id="balloonContainer"></div>
   <button onclick="resetProgress()">🔄 Reset Game</button>
 
- <script>
+<script>
   const totalBalloons = 42;
   const logicalTotal = 300;
   const logicalStart = 258; // Already completed
@@ -103,6 +103,110 @@
   const quote = document.getElementById("quote");
   const container = document.getElementById("balloonContainer");
 
-  const emojis = ["😄", "🌟", "🚀", "💡", "🔥", "🎯", "💪", "👏", "🧠", "💥", "]()
+  const emojis = ["😄", "🌟", "🚀", "💡", "🔥", "🎯", "💪", "👏", "🧠", "💥", "😎", "🤩", "🥳", "😇", "🤓"];
+
+  const messages = [
+    "42 to go! You popped one! Ewa: 'Let’s finish strong!'",
+    "Down to 41! Val: 'This one squeaked a little 😅'",
+    "Only 40 left! Ewa: 'Final stretch, people!'",
+    "Pop! 39 to go! Val: 'I call that a crunchy balloon.'",
+    "38 left! Ewa: 'Teamwork makes the data work.'",
+    "Just 37! Val: 'Recruitment level: expert.'",
+    "36 left to full glory! Ewa: 'Let’s pop history together!'",
+    "35 more! Val: 'We're practically at the celebration snacks.'",
+    "34! Ewa: 'You’ve got the pop-power!'",
+    "33 remaining! Val: 'Boom. Like that.'",
+    "Just 32 now! Ewa: 'You’re part of the story now.'",
+    "31 to go! Val: 'This one felt personal 😂'",
+    "30! Ewa: 'We see your effort—thank you.'",
+    "29 remaining! Val: 'Team MICOPE FTW!'",
+    "28 left! Ewa: 'Just like slicing cake, but louder.'",
+    "27 more to greatness! Val: 'Give that one a name.'",
+    "26 balloons! Ewa: 'Keep calm and pop on.'",
+    "25 to go! Val: 'You’re carrying this team!'",
+    "24 left! Ewa: 'We’re almost there together.'",
+    "23 pops to glory! Val: 'Science never looked this fun.'",
+    "22 to go! Ewa: 'Almost feels illegal to have this much fun.'",
+    "21 left! Val: 'Break time after this? Maybe 😏'",
+    "20 to go! Ewa: 'Feel the recruitment energy!'",
+    "19! Val: 'Pop it like it’s hot!'",
+    "18 left! Ewa: 'So close you can hear the confetti.'",
+    "17 to go! Val: 'That one practically popped itself.'",
+    "16 remaining! Ewa: 'Final round, final energy!'",
+    "15 left! Val: 'Balloon MVP right here.'",
+    "14 to go! Ewa: 'Pop-ortunities everywhere.'",
+    "13 remaining! Val: 'Science never stood a chance 😎'",
+    "12 more! Ewa: 'Pop! Pop! Recruit!'",
+    "11 left! Val: 'One pop closer to legend status.'",
+    "Just 10! Ewa: 'Finish line in sight!'",
+    "9 balloons left! Val: 'This one smelled like victory.'",
+    "8 to go! Ewa: 'Recruitment royalty over here.'",
+    "7 left! Val: 'Pop it like protocol demands it!'",
+    "6! Ewa: 'Almost full MICOPE mode!'",
+    "5 left! Val: 'Fingers crossed, spirits high!'",
+    "Only 4! Ewa: 'Everyone’s watching now 😄'",
+    "3 to go! Val: 'No turning back now!'",
+    "2 more! Ewa: 'Recruitment complete is a breath away.'",
+    "Last one!! Val: 'Make it count!!'",
+    "🎉 That’s it! 300/300. Ewa & Val: 'You helped us finish the race. THANK YOU for your time, effort, and popping skills!'"
+  ];
+
+  let savedPopped = JSON.parse(localStorage.getItem("poppedBalloons")) || [];
+
+  const shuffledIndexes = Array.from({ length: totalBalloons }, (_, i) => i).sort(() => Math.random() - 0.5);
+
+  shuffledIndexes.forEach(i => {
+    const balloon = document.createElement("div");
+    balloon.classList.add("balloon");
+    balloon.dataset.index = i;
+
+    if (savedPopped.includes(i)) {
+      balloon.classList.add("popped");
+      const emoji = document.createElement("div");
+      emoji.classList.add("emoji");
+      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      balloon.appendChild(emoji);
+      poppedCount++;
+    }
+
+    balloon.addEventListener("click", function () {
+      if (!balloon.classList.contains("popped")) {
+        balloon.classList.add("popped");
+        const emoji = document.createElement("div");
+        emoji.classList.add("emoji");
+        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        balloon.appendChild(emoji);
+
+        poppedCount++;
+        savedPopped.push(i);
+        localStorage.setItem("poppedBalloons", JSON.stringify(savedPopped));
+
+        updateProgress(i);
+      }
+    });
+
+    container.appendChild(balloon);
+  });
+
+  function updateProgress(lastPoppedIndex = null) {
+    const logicalPopped = Math.min(logicalStart + poppedCount, logicalTotal);
+    progressBar.style.width = (logicalPopped / logicalTotal) * 100 + "%";
+    status.textContent = `MICOPE Participants Recruited: ${logicalPopped} / ${logicalTotal}`;
+
+    if (poppedCount === totalBalloons) {
+      quote.textContent = messages[messages.length - 1];
+    } else if (lastPoppedIndex !== null) {
+      quote.textContent = messages[poppedCount - 1] || "Keep going!";
+    }
+  }
+
+  function resetProgress() {
+    localStorage.removeItem("poppedBalloons");
+    window.location.reload();
+  }
+
+  updateProgress();
+</script>
+  
 </body>
 </html>
